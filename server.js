@@ -11,7 +11,7 @@ const server = http.createServer((req, res) => {
 const wss = new WebSocket.Server({ server });
 wss.on('connection', (azureWs) => {
     const showdownWs = new WebSocket(SHOWDOWN_WS);
-    azureWs.on('message', (msg) => { if (showdownWs.readyState === WebSocket.OPEN) showdownWs.send(msg); });
+    azureWs.on('message', (msg) => { if (showdownWs.readyState === WebSocket.OPEN) showdownWs.send(msg.toString()); });
     showdownWs.on('message', (msg) => { if (azureWs.readyState === WebSocket.OPEN) azureWs.send(msg.toString()); });
     azureWs.on('close', () => showdownWs.close());
     showdownWs.on('close', () => azureWs.close());
